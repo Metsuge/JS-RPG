@@ -6,7 +6,7 @@ class Overworld {
 		this.map = null;
 	}
 
-	// this.
+	// executes various functions on (usually) 60x per sec, but will match display refresh rate of the monitor
 	startAnimationLoop() {
 		const step = () => {
 			// clearing last animation frames
@@ -16,7 +16,12 @@ class Overworld {
 			this.map.drawLowerImage(this.ctx);
 			//draw game objects
 			Object.values(this.map.gameObjects).forEach((object) => {
-				object.x += 1;
+				//each object has update function that controlls the movement direction
+				// it takes in direction as an argument
+				object.update({
+					arrow: this.directionInput.direction,
+				});
+				//draw each object
 				object.sprite.draw(this.ctx);
 			});
 
@@ -28,7 +33,14 @@ class Overworld {
 	}
 
 	init() {
-		this.map = new OverworldMap(window.OverworldMaps.KitchenRoom);
+		//populate the game with map and game objects
+		this.map = new OverworldMap(window.OverworldMaps.DemoRoom);
+
+		//init direction input function and get directions from keyboard actions
+		this.directionInput = new DirectionInput();
+		this.directionInput.init();
+		// return the last pressed key, or undefined if no key is pressed now
+		this.directionInput.direction;
 		// start frame looping
 		this.startAnimationLoop();
 	}

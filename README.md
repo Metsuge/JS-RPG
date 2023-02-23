@@ -1,1 +1,1 @@
-![Visualization of the codebase](./diagram.svg)
+![Visualization of this repo](./diagram.svg)
